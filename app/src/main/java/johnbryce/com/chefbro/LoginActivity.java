@@ -1,6 +1,7 @@
 package johnbryce.com.chefbro;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,21 +16,28 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG="FirebaseLogin";
     private ProgressDialog mProgressDialog;
-    TextView tvUserState;
+    private TextView tvUserState;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
 
         tvUserState = (TextView)findViewById(R.id.TextViewUserLogin);
         mAuth = FirebaseAuth.getInstance();
@@ -39,8 +47,9 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    tvUserState.setText("User logged in " + user.getEmail());
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                    startActivity(intent);
                 } else {
                     tvUserState.setText("User IS NOT logged in");
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -55,6 +64,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -93,11 +108,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else if(task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail succeed");
+
                             Toast.makeText(getApplicationContext(), "Authentication Succeeded.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        // ...
+
                     }
                 });
 
