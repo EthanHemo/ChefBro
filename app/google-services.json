@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "768388826678",
+    "firebase_url": "https://test-8aded.firebaseio.com",
+    "project_id": "test-8aded",
+    "storage_bucket": "test-8aded.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768388826678:android:5a379d57fada4deb",
+        "android_client_info": {
+          "package_name": "com.hemo.ethan.cookbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768388826678-faqga4gqgggmp9phpjnbkl0rumv26nfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdYjWS-CNuPme5S7AxbvxFPG2dt4FBI2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768388826678:android:4a196cf7c848ae3c",
+        "android_client_info": {
+          "package_name": "johnbryce.com.chefbro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768388826678-faqga4gqgggmp9phpjnbkl0rumv26nfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdYjWS-CNuPme5S7AxbvxFPG2dt4FBI2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
