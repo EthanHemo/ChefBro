@@ -1,13 +1,22 @@
 package johnbryce.com.chefbro;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class AddRecipeActivity extends AppCompatActivity {
 
@@ -30,8 +39,12 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private void createNewRow()
     {
+        int editTextSize = 250;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, editTextSize, r.getDisplayMetrics());
+
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT );
-        final LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(500,LinearLayout.LayoutParams.WRAP_CONTENT );
+        final LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams((int)px,LinearLayout.LayoutParams.WRAP_CONTENT );
         final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT );
 
         LinearLayout linearLayout = new LinearLayout(this);
@@ -42,16 +55,17 @@ public class AddRecipeActivity extends AppCompatActivity {
         editText.setLayoutParams(editTextParams);
         button.setLayoutParams(buttonParams);
 
-        linearLayout.setId(START_LAYOUT_ID+rowCounter);
-        editText.setId(START_EDITTEXT_ID+rowCounter);
-        button.setId(START_BUTTON_ID+rowCounter);
+        linearLayout.setId(START_LAYOUT_ID + rowCounter);
+        editText.setId(START_EDITTEXT_ID + rowCounter);
+        button.setId(START_BUTTON_ID + rowCounter);
 
-        editText.setHint(""+rowCounter);
-        //editText.setHint("Add Ingridient");
+        //editText.setHint(""+rowCounter);
+        editText.requestFocus();
+        editText.setHint("Add Ingridient");
         button.setText("+");
         button.setOnClickListener(
-                new Button.OnClickListener(){
-                    public void onClick(View view){
+                new Button.OnClickListener() {
+                    public void onClick(View view) {
                         createNewRow();
                         changeButton(view);
                     }
@@ -86,15 +100,27 @@ public class AddRecipeActivity extends AppCompatActivity {
 
 
     public void SubmitIngredients(View view) {
-        String msg = "";
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Recipes");
+
+        ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+        Recipe recipe;
+
         for (int i = 0; i < mLinearLayoutRows.getChildCount();i++)
         {
             LinearLayout layout = (LinearLayout)mLinearLayoutRows.getChildAt(i);
             EditText editText = (EditText)layout.getChildAt(0);
-            msg = msg + editText.getText().toString() + ", ";
+            ingredients.add(new Ingredient(editText.getText().toString()));
         }
 
-        Toast.makeText(AddRecipeActivity.this, msg, Toast.LENGTH_SHORT).show();
+        recipe = new Recipe("Yumms", user.getUid(), ingredients);
+
+        String key = myRef.push().getKey();
+        myRef = database.getReference("Recipes/Recipe-"+key);
+        myRef.setValue(recipe);
+
 
     }
 }

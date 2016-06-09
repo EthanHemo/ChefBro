@@ -52,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
                     {
                         currentUser = new UserChef(mUser.getUid(),mUser.getEmail());
                         myRef.setValue(currentUser);
+                        tvHeader.setText("Creating User...");
                     }
                     else
                     {
@@ -80,5 +81,10 @@ public class ProfileActivity extends AppCompatActivity {
     public void signout(View view) {
         mAuth.signOut();
         finish();
+    }
+
+    public void addRecipe(View view) {
+        Intent intent = new Intent(getApplicationContext(),AddRecipeActivity.class);
+        startActivity(intent);
     }
 }

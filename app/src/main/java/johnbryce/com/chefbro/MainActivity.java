@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentRecipe = new Recipe("Toast","Very Yummy");
+        currentRecipe = new Recipe();
         textViewDisplay = (TextView)findViewById(R.id.textViewDisplay);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("test-8aded");

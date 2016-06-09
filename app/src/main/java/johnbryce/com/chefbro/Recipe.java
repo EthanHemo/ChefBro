@@ -1,20 +1,25 @@
 package johnbryce.com.chefbro;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by jbt on 6/5/2016.
  */
 public class Recipe implements Serializable {
     private String mName;
-    private String mYummy;
+    private String mOwnerUID;
+    private ArrayList<Ingredient> mIngredients;
 
     public Recipe() {
     }
 
-    public Recipe(String Name, String Yummy) {
+    public Recipe(String Name, String OwnerUID, ArrayList<Ingredient> ingredients) {
+        mIngredients = new ArrayList<Ingredient>();
+
         setName(Name);
-        setYummy(Yummy);
+        setOwnerUID(OwnerUID);
+        setIngredients(ingredients);
     }
 
     public String getName() {
@@ -25,16 +30,19 @@ public class Recipe implements Serializable {
         this.mName = mName;
     }
 
-    public String getYummy() {
-        return mYummy;
+    public String getOwnerUID() {
+        return mOwnerUID;
     }
 
-    public void setYummy(String mYummy) {
-        this.mYummy = mYummy;
+    public void setOwnerUID(String OwnerUID) {
+        this.mOwnerUID = OwnerUID;
     }
 
-    @Override
-    public String toString() {
-        return getName() + " is " + getYummy();
+    public ArrayList<Ingredient> getIngredients() {
+        return mIngredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.mIngredients.addAll(ingredients);
     }
 }
