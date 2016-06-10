@@ -30,11 +30,21 @@
         />
 
     <Button
-        android:id="@+id/ButtonDisconnected"
+        android:id="@+id/ButtonViewRecipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/ButtonAddRecipe"
+        android:text="View Recipe"
+        android:onClick="viewRecipes"
+        />
+
+    <Button
+        android:id="@+id/ButtonDisconnected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/ButtonViewRecipes"
         android:text="Signout"
         android:onClick="signout"
         />

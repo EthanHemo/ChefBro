@@ -2,14 +2,18 @@ package johnbryce.com.chefbro;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +44,17 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else {
             mUser = mAuth.getCurrentUser();
+            mUser.getToken(true).addOnCompleteListener(this, new OnCompleteListener<GetTokenResult>() {
+                @Override
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "token=" + task.getResult().getToken());
+                    } else {
+                        Log.e(TAG, "exception=" +task.getException().toString());
+                    }
+                }
+            });
+
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("users").child(mUser.getUid());
 
@@ -85,6 +100,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void addRecipe(View view) {
         Intent intent = new Intent(getApplicationContext(),AddRecipeActivity.class);
+        startActivity(intent);
+    }
+
+    public void viewRecipes(View view) {
+        Intent intent = new Intent(getApplicationContext(),ViewRecipeActivity.class);
         startActivity(intent);
     }
 }

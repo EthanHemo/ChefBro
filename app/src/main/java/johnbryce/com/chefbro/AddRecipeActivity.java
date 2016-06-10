@@ -118,7 +118,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         recipe = new Recipe("Yumms", user.getUid(), ingredients);
 
         String key = myRef.push().getKey();
-        myRef = database.getReference("Recipes/Recipe-"+key);
+        myRef = database.getReference("Recipes/Recipe"+key);
         myRef.setValue(recipe);
 
 
