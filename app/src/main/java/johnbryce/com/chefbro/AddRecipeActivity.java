@@ -108,6 +108,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
         Recipe recipe;
 
+        EditText editTextRecipeName = (EditText)findViewById(R.id.EditTextRecipeName);
         for (int i = 0; i < mLinearLayoutRows.getChildCount();i++)
         {
             LinearLayout layout = (LinearLayout)mLinearLayoutRows.getChildAt(i);
@@ -115,7 +116,8 @@ public class AddRecipeActivity extends AppCompatActivity {
             ingredients.add(new Ingredient(editText.getText().toString()));
         }
 
-        recipe = new Recipe("Yumms", user.getUid(), ingredients);
+        //TODO: Check if adding recipe works with RecipeName edit text
+        recipe = new Recipe(editTextRecipeName.getText().toString(), user.getUid(), ingredients);
 
         String key = myRef.push().getKey();
         myRef = database.getReference("Recipes/Recipe"+key);

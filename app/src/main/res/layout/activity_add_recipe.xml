@@ -19,6 +19,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+            <EditText
+                android:id="@+id/EditTextRecipeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Recipe Name"/>
+
             <LinearLayout
                 android:id="@+id/LinearLayoutIngredientRows"
                 android:layout_width="match_parent"

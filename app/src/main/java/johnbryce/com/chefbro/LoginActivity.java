@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         final String email = etEmail.getText().toString();
         final String password = etPassword.getText().toString();
 
+        //TODO: Add validation of Email and password
         showProgressDialog();
 
 
@@ -121,6 +122,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void Signup(View view) {
+
+        //TODO: Create screen for create user.
         EditText etEmail = (EditText)findViewById(R.id.EditTextEmail);
         EditText etPassword = (EditText)findViewById(R.id.EditTextPassword);
         final String email = etEmail.getText().toString();
