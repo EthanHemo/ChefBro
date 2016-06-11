@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -88,7 +89,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         button.setText("-");
         button.setOnClickListener(
                 new Button.OnClickListener(){
-                    public void onClick(View view){
+                        public void onClick(View view){
                         int id = view.getId();
                         //LinearLayout layout = (LinearLayout)findViewById(id+START_LAYOUT_ID);
                         mLinearLayoutRows.removeView((View)view.getParent());
@@ -122,6 +123,9 @@ public class AddRecipeActivity extends AppCompatActivity {
         String key = myRef.push().getKey();
         myRef = database.getReference("Recipes/Recipe"+key);
         myRef.setValue(recipe);
+
+        Toast.makeText(AddRecipeActivity.this, "Recipe added", Toast.LENGTH_SHORT).show();
+        finish();
 
 
     }

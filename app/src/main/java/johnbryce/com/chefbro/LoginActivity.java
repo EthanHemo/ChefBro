@@ -22,13 +22,13 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG="FirebaseLogin";
+
     private ProgressDialog mProgressDialog;
     private TextView tvUserState;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
+
 
 
     @Override
@@ -36,25 +36,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users");
-
+        // Set textview for direct output
         tvUserState = (TextView)findViewById(R.id.TextViewUserLogin);
+
+        // Initialize authentication object and listener
+        //The listener is attached at onStart and onResume
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
+                    // When user is signed in or already signed in, direct him to his profile
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                     startActivity(intent);
                 } else {
+                    // When user isn't logged in, waiting for either signup or signin
                     tvUserState.setText("User IS NOT logged in");
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -64,29 +65,71 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        // Set Authentication object to listener
         mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Set Authentication object to listener
         mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
+        // Remove the listener from Authenticate object
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
+    private boolean validateEmailAndPassword(String email, String password)
+    {
+        final String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        final int PASSWORD_LENGTH = 6;
+        String msg = "";
+
+        //check Email
+        if(!email.matches(EMAIL_PATTERN))
+        {
+            msg = "Email isn't correct";
+        }
+        //Check Password
+        else if(password.length()<PASSWORD_LENGTH)
+        {
+            msg = "Password too short, need at least 8 characters";
+        }
+
+        if (!msg.equals(""))
+        {
+            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+
+
+    }
+
 
     public void login(View view) {
+        // Get user input
         EditText etEmail = (EditText)findViewById(R.id.EditTextEmail);
         EditText etPassword = (EditText)findViewById(R.id.EditTextPassword);
         final String email = etEmail.getText().toString();
         final String password = etPassword.getText().toString();
+
+        if(!validateEmailAndPassword(email,password))
+        {
+            return;
+        }
 
         //TODO: Add validation of Email and password
         showProgressDialog();

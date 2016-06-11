@@ -16,7 +16,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textSize="40sp"
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:id="@+id/ImageViewProfilePic"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_below="@id/TextViewProfileHeader"
+        android:layout_alignParentLeft="true"
         />
 
     <Button
@@ -24,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/TextViewProfileHeader"
+        android:layout_below="@id/ImageViewProfilePic"
         android:text="Add Recipe"
         android:onClick="addRecipe"
         />

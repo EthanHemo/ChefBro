@@ -6,6 +6,7 @@ package johnbryce.com.chefbro;
 public class UserChef {
     private String mEmail;
     private String mUid;
+    private String mPictureName;
 
     public UserChef() {
     }
@@ -29,5 +30,13 @@ public class UserChef {
 
     public void setUid(String uid) {
         mUid = uid;
+    }
+
+    public String getPictureName() {
+        return mPictureName;
+    }
+
+    public void setPictureName(String PictureName) {
+        this.mPictureName = PictureName;
     }
 }

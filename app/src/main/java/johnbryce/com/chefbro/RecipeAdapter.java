@@ -20,16 +20,14 @@ class RecipeAdapter extends ArrayAdapter<Recipe> {
     private final String TAG = "ArrayAdapterLog";
     private Context mContext;
     private int mResource;
-    private ArrayList<Recipe> mRecipes;
+    private String mUid;
 
 
-    public RecipeAdapter(Context context, int resource, List<Recipe> recipes ) {
-        super(context, R.layout.list_view_recipe,recipes);
+    public RecipeAdapter(Context context, int resource, List<Recipe> recipes, String uid ) {
+        super(context, resource ,recipes);
         mContext = context;
         mResource = resource;
-
-        mRecipes = new ArrayList<Recipe>();
-        mRecipes.addAll(recipes);
+        mUid = uid;
         Log.i(TAG, "Finish contractor. recipe have " + recipes.size());
     }
 
@@ -42,18 +40,23 @@ class RecipeAdapter extends ArrayAdapter<Recipe> {
 
         LinearLayout layout = (LinearLayout)customView.findViewById(R.id.LinearLayoutListViewRecipe);
         TextView textViewName = (TextView)customView.findViewById(R.id.TextViewRecipeName);
-        Recipe recipe = mRecipes.get(position);
+        Recipe recipe = getItem(position);
         textViewName.setText(recipe.getName());
+        if(recipe.getOwnerUID().equals(mUid))
+        {
+            textViewName.setTextColor(Color.GREEN);
+        }
+
         for(Ingredient ingredient : recipe.getIngredients())
         {
-            TextView textView = new TextView(customView.getContext());
+            TextView textView = new TextView(mContext);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             textView.setText("--" + ingredient.getDetails());
             textView.setTextColor(Color.BLACK);
             layout.addView(textView,params);
         }
 
-        View lineView = new View(customView.getContext());
+        View lineView = new View(mContext);
         lineView.setBackgroundColor(Color.GRAY);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 10);
