@@ -33,6 +33,8 @@ public class UserChef {
     }
 
     public String getPictureName() {
+        if(mPictureName==null)
+            return "unknown.jpg";
         return mPictureName;
     }
 

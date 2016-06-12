@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".AddRecipeActivity" />
-        <activity android:name=".ViewRecipeActivity"></activity>
+        <activity android:name=".ViewRecipeActivity" />
+        <activity android:name=".SignInActivity"></activity>
     </application>
 
 </manifest>

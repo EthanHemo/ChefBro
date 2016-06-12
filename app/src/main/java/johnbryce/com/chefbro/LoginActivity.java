@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        //TODO: Add validation of Email and password
+
         showProgressDialog();
 
 
@@ -167,6 +167,10 @@ public class LoginActivity extends AppCompatActivity {
     public void Signup(View view) {
 
         //TODO: Create screen for create user.
+
+        startActivity(new Intent(getApplicationContext(),SignInActivity.class));
+
+        /*
         EditText etEmail = (EditText)findViewById(R.id.EditTextEmail);
         EditText etPassword = (EditText)findViewById(R.id.EditTextPassword);
         final String email = etEmail.getText().toString();
@@ -198,6 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+            */
     }
 
     public void showProgressDialog() {

@@ -117,7 +117,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             ingredients.add(new Ingredient(editText.getText().toString()));
         }
 
-        //TODO: Check if adding recipe works with RecipeName edit text
+
         recipe = new Recipe(editTextRecipeName.getText().toString(), user.getUid(), ingredients);
 
         String key = myRef.push().getKey();
