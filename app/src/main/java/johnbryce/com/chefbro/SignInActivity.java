@@ -32,15 +32,45 @@ import java.io.FileNotFoundException;
 
 public class SignInActivity extends AppCompatActivity {
 
+    private final String TAG = "FirebaseSignin";
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private final String TAG = "FirebaseSignin";
+    private FirebaseUser mUser;
     private ProgressDialog mProgressDialog;
+    private UserChef mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        /*
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // When user is signed in or already signed in, direct him to his profile
+                    if(mCurrentUser != null) {
+                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        signUserToDB();
+                    }
+                } else {
+                    // When user isn't logged in, waiting for either signup or signin
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+
+        */
     }
 
     public void browsePicture(View view) {
@@ -76,37 +106,9 @@ public class SignInActivity extends AppCompatActivity {
     public void signin(View view) {
 
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("Text.jpg");
 
-        showProgressDialog();
 
-        ImageView imageViewProfilePic = (ImageView)findViewById(R.id.ImageViewProfilePic);
-        imageViewProfilePic.buildDrawingCache();
-        Bitmap bitmap = imageViewProfilePic.getDrawingCache();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
 
-        UploadTask uploadTask = storageRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                hideProgressDialog();
-                Toast.makeText(SignInActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                hideProgressDialog();
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                Toast.makeText(SignInActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        /*
 
 
         EditText etEmail = (EditText)findViewById(R.id.EditTextEmail);
@@ -148,7 +150,7 @@ public class SignInActivity extends AppCompatActivity {
                     }
                 });
 
-        */
+
     }
 
     private void signUserToDB()
@@ -158,14 +160,53 @@ public class SignInActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("users").child(user.getUid());
 
         EditText etEmail = (EditText)findViewById(R.id.EditTextEmail);
-        EditText etPassword = (EditText)findViewById(R.id.EditTextPassword);
-        ImageView imageViewProfilePic = (ImageView)findViewById(R.id.ImageViewProfilePic);
-
         final String email = etEmail.getText().toString();
-        final String password = etPassword.getText().toString();
+
+        mCurrentUser = new UserChef(user.getUid(),email);
+        mCurrentUser.setPictureName(user.getUid());
+
+        myRef.setValue(mCurrentUser);
+
+        uploadProfilePic(user.getUid());
 
 
 
+
+    }
+
+    private void uploadProfilePic(String picName)
+    {
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("UserProfilePics").child(picName);
+
+        showProgressDialog();
+
+        ImageView imageViewProfilePic = (ImageView)findViewById(R.id.ImageViewProfilePic);
+        imageViewProfilePic.destroyDrawingCache();
+        imageViewProfilePic.buildDrawingCache();
+        Bitmap bitmap = imageViewProfilePic.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = storageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                hideProgressDialog();
+                Toast.makeText(SignInActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                hideProgressDialog();
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Toast.makeText(SignInActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void showProgressDialog() {

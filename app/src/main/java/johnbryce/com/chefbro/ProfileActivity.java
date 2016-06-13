@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void getUserProfilePic(){
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child(currentUser.getPictureName());
+        StorageReference storageRef = storage.getReference().child("UserProfilePics").child(currentUser.getPictureName());
 
         //TODO: Adjust users with no profile pic so they will have one
         final long ONE_MEGABYTE = 1024 * 1024;
