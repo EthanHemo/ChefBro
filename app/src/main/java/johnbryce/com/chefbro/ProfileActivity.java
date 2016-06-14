@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Query query;
     private ValueEventListener postListener;
     private UserChef currentUser;
+    private int backButtonCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     mUser = user;
+                    //setUserListener();
                     getUserDetailsFromDB();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
@@ -64,6 +67,22 @@ public class ProfileActivity extends AppCompatActivity {
         };
         mAuth.addAuthStateListener(mAuthListener);
 
+    }
+
+    private void setUserListener(){
+        mUser.getToken(true).addOnCompleteListener(this, new OnCompleteListener<GetTokenResult>() {
+            @Override
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "token=" + task.getResult().getToken());
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Error in user login", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "exception=" + task.getException().toString());
+                    mAuth.signOut();
+                    startActivity(new Intent(getApplication(),LoginActivity.class));
+                }
+            }
+        });
     }
 
 
@@ -79,15 +98,15 @@ public class ProfileActivity extends AppCompatActivity {
                 TextView tvHeader = (TextView) findViewById(R.id.TextViewProfileHeader);
                 if(dataSnapshot.getValue(UserChef.class) == null)
                 {
-                    currentUser = new UserChef(mUser.getUid(),mUser.getEmail());
-                    myRef.setValue(currentUser);
-                    tvHeader.setText("Creating User...");
+
+                    Log.e(TAG, "Data wasn't found in DB");
                 }
                 else
                 {
                     currentUser = dataSnapshot.getValue(UserChef.class);
                     tvHeader.setText("Welcome " + currentUser.getEmail());
                     getUserProfilePic();
+                    Log.i(TAG, "getting information from DB");
                 }
                 // ...
             }
@@ -118,11 +137,13 @@ public class ProfileActivity extends AppCompatActivity {
                 // Data for "images/island.jpg" is returns, use this as needed
                 ImageView imageView = (ImageView)findViewById(R.id.ImageViewProfilePic);
                 imageView.setImageBitmap(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                Log.i(TAG, "got user profile pic");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
+                Log.e(TAG, "Couldn't get user profile pic");
             }
         });
 
@@ -142,5 +163,26 @@ public class ProfileActivity extends AppCompatActivity {
     public void viewRecipes(View view) {
         Intent intent = new Intent(getApplicationContext(),ViewRecipeActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Back button listener.
+     * Will close the application if the back button pressed twice.
+     */
+    @Override
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
     }
 }
