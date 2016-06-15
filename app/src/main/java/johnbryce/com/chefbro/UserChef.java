@@ -1,9 +1,11 @@
 package johnbryce.com.chefbro;
 
+import java.io.Serializable;
+
 /**
  * Created by jbt on 6/8/2016.
  */
-public class UserChef {
+public class UserChef implements Serializable {
     private String mEmail;
     private String mUid;
     private String mPictureName;

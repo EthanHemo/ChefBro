@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/ImageViewProfilePic"
         android:text="Add Recipe"
-        android:onClick="addRecipe"
+        android:onClick="redirectApp"
         />
 
     <Button
@@ -44,7 +44,17 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/ButtonAddRecipe"
         android:text="View Recipe"
-        android:onClick="viewRecipes"
+        android:onClick="redirectApp"
+        />
+
+    <Button
+        android:id="@+id/ButtonUpdateProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/ButtonViewRecipes"
+        android:text="Update Profile"
+        android:onClick="redirectApp"
         />
 
     <Button
@@ -52,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/ButtonViewRecipes"
+        android:layout_below="@id/ButtonUpdateProfile"
         android:text="Signout"
         android:onClick="signout"
         />

@@ -2,6 +2,7 @@ package johnbryce.com.chefbro;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.ByteArrayOutputStream;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -79,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "Error in user login", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "exception=" + task.getException().toString());
                     mAuth.signOut();
-                    startActivity(new Intent(getApplication(),LoginActivity.class));
+                    startActivity(new Intent(getApplication(), LoginActivity.class));
                 }
             }
         });
@@ -184,5 +187,38 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
             backButtonCount++;
         }
+    }
+
+    public void updateProfile(View view) {
+    }
+
+    public void redirectApp(View view){
+        Intent intent;
+        switch(view.getId())
+        {
+            case R.id.ButtonUpdateProfile:
+                ImageView imageView = (ImageView)findViewById(R.id.ImageViewProfilePic);
+                imageView.destroyDrawingCache();
+                imageView.buildDrawingCache();
+                Bitmap bitmap = imageView.getDrawingCache();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+                intent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+                intent.putExtra("currentUser",currentUser);
+                intent.putExtra("profilePic",data);
+                break;
+            case R.id.ButtonAddRecipe:
+                intent = new Intent(getApplicationContext(),AddRecipeActivity.class);
+                break;
+            case R.id.ButtonViewRecipes:
+                intent = new Intent(getApplicationContext(),ViewRecipeActivity.class);
+                break;
+            default:
+                Toast.makeText(ProfileActivity.this, "No correct button choosen", Toast.LENGTH_SHORT).show();
+                intent = new Intent();
+        }
+
+        startActivity(intent);
     }
 }

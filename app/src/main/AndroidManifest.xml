@@ -23,7 +23,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".AddRecipeActivity" />
         <activity android:name=".ViewRecipeActivity" />
-        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".UpdateProfileActivity"></activity>
     </application>
 
 </manifest>
