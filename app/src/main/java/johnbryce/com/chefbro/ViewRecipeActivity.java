@@ -1,9 +1,12 @@
 package johnbryce.com.chefbro;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,37 +67,44 @@ public class ViewRecipeActivity extends AppCompatActivity {
         mAuth.addAuthStateListener(mAuthListener);
 
 
-
-
     }
 
-    private void getRecipeFromDB()
-    {
+    private void getRecipeFromDB() {
         recipes = new ArrayList<>();
         Ingredient ingredient = new Ingredient("Pizza");
         ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
         ingredients.add(ingredient);
-        recipes.add( new Recipe("Chef pizza","xxxxxxx",ingredients ));
+        recipes.add(new Recipe("Chef pizza", "xxxxxxx", ingredients));
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Recipes");
         query = myRef.orderByValue();
 
-        listViewRecipes = (ListView)findViewById(R.id.ListViewRecipes);
+        listViewRecipes = (ListView) findViewById(R.id.ListViewRecipes);
+        listViewRecipes.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        Recipe recipe = (Recipe)parent.getItemAtPosition(position);
+                        Intent intent = new Intent(getApplicationContext(), UpdateRecipeActivity.class);
+                        intent.putExtra("currentRecipe",recipe);
+                        startActivity(intent);
+                        return true;
+                    }
+                }
 
-
+        );
 
 
         postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
-                for(DataSnapshot data : dataSnapshot.getChildren())
-                {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     recipes.add(data.getValue(Recipe.class));
                 }
                 //ListAdapter adapter =  new RecipeAdapter(getApplicationContext(),R.layout.list_view_recipe,recipes, mUser.getUid());
-                ListAdapter adapter =  new RecipeAdapter(getApplicationContext(),R.layout.list_view_recipe,recipes, mUser.getUid());
+                ListAdapter adapter = new RecipeAdapter(getApplicationContext(), R.layout.list_view_recipe, recipes, mUser.getUid());
                 listViewRecipes.setAdapter(adapter);
 
 

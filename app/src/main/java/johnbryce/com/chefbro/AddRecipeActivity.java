@@ -25,7 +25,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private final int START_EDITTEXT_ID = 600;
     private final int START_BUTTON_ID = 1000;
     private int rowCounter = 0;
-    LinearLayout mLinearLayoutRows;
+    private LinearLayout mLinearLayoutRows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
