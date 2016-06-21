@@ -6,8 +6,12 @@ import java.util.ArrayList;
 
 public class Recipe implements Serializable {
     private String mName;
+    private String mID;
     private String mOwnerUID;
     private ArrayList<Ingredient> mIngredients;
+    private String mDateCreated;
+    private String mDateLastModify;
+    private ArrayList<String> mRecipeCategory;
 
     public Recipe() {
         mIngredients = new ArrayList<Ingredient>();
@@ -29,6 +33,14 @@ public class Recipe implements Serializable {
         this.mName = mName;
     }
 
+    public String getID() {
+        return mID;
+    }
+
+    public void setID(String ID) {
+        this.mID = ID;
+    }
+
     public String getOwnerUID() {
         return mOwnerUID;
     }
@@ -43,5 +55,29 @@ public class Recipe implements Serializable {
 
     public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.mIngredients.addAll(ingredients);
+    }
+
+    public String getDateCreated() {
+        return mDateCreated;
+    }
+
+    public void setDateCreated(String DateCreated) {
+        this.mDateCreated = DateCreated;
+    }
+
+    public String getDateLastModify() {
+        return mDateLastModify;
+    }
+
+    public void setDateLastModify(String DateLastModify) {
+        this.mDateLastModify = DateLastModify;
+    }
+
+    public ArrayList<String> getRecipeCategory() {
+        return mRecipeCategory;
+    }
+
+    public void setRecipeCategory(ArrayList<String> RecipeCategory) {
+        this.mRecipeCategory = RecipeCategory;
     }
 }

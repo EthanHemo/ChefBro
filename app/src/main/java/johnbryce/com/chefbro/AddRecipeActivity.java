@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddRecipeActivity extends AppCompatActivity {
 
@@ -107,6 +108,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("Recipes");
 
         ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+        ArrayList<String> categories = new ArrayList<String>();
         Recipe recipe;
 
         EditText editTextRecipeName = (EditText)findViewById(R.id.EditTextRecipeName);
@@ -117,8 +119,13 @@ public class AddRecipeActivity extends AppCompatActivity {
             ingredients.add(new Ingredient(editText.getText().toString()));
         }
 
+        categories.add("Tasty");
+
 
         recipe = new Recipe(editTextRecipeName.getText().toString(), user.getUid(), ingredients);
+        recipe.setDateCreated(new Date().toString());
+        recipe.setDateLastModify(new Date().toString());
+        recipe.setRecipeCategory(categories);
 
         String key = myRef.push().getKey();
         myRef = database.getReference("Recipes/Recipe"+key);

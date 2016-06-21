@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,7 +49,7 @@ class RecipeAdapter extends ArrayAdapter<Recipe> {
         {
             TextView textView = new TextView(mContext);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            textView.setText("--" + ingredient.getDetails());
+            textView.setText("--" + ingredient.getName());
             textView.setTextColor(Color.BLACK);
             layout.addView(textView,params);
         }

@@ -6,20 +6,21 @@ import java.io.Serializable;
  * Created by Shane on 08/06/2016.
  */
 public class Ingredient implements Serializable {
-    private String mDetails;
+    private String mName;
+    private String mCategory;
 
     public Ingredient() {
     }
 
-    public Ingredient(String Details) {
-        this.mDetails = Details;
+    public Ingredient(String Name) {
+        this.mName = Name;
     }
 
-    public String getDetails() {
-        return mDetails;
+    public String getName() {
+        return mName;
     }
 
-    public void setDetails(String Details) {
-        this.mDetails = Details;
+    public void setName(String Name) {
+        this.mName = Name;
     }
 }

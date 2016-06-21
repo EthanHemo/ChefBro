@@ -70,11 +70,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
     }
 
     private void getRecipeFromDB() {
-        recipes = new ArrayList<>();
-        Ingredient ingredient = new Ingredient("Pizza");
-        ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-        ingredients.add(ingredient);
-        recipes.add(new Recipe("Chef pizza", "xxxxxxx", ingredients));
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Recipes");
@@ -100,12 +95,14 @@ public class ViewRecipeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
+                recipes = new ArrayList<>();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     recipes.add(data.getValue(Recipe.class));
                 }
                 //ListAdapter adapter =  new RecipeAdapter(getApplicationContext(),R.layout.list_view_recipe,recipes, mUser.getUid());
                 ListAdapter adapter = new RecipeAdapter(getApplicationContext(), R.layout.list_view_recipe, recipes, mUser.getUid());
                 listViewRecipes.setAdapter(adapter);
+                listViewRecipes.invalidateViews();
 
 
                 // ...
@@ -118,6 +115,6 @@ public class ViewRecipeActivity extends AppCompatActivity {
                 // ...
             }
         };
-        query.addValueEventListener(postListener);
+        query.addListenerForSingleValueEvent(postListener);
     }
 }

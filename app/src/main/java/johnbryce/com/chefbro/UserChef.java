@@ -9,6 +9,7 @@ public class UserChef implements Serializable {
     private String mEmail;
     private String mUid;
     private String mPictureName;
+    private String mRecipiesDone;
 
     public UserChef() {
     }
