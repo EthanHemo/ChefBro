@@ -121,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                 // ...
             }
         };
-        myRef.addValueEventListener(postListener);
+        myRef.addListenerForSingleValueEvent(postListener);
 
 
         //TextView tvHeader = (TextView) findViewById(R.id.TextViewProfileHeader);
@@ -213,6 +213,12 @@ public class ProfileActivity extends AppCompatActivity {
                 break;
             case R.id.ButtonViewRecipes:
                 intent = new Intent(getApplicationContext(),ViewRecipeActivity.class);
+                break;
+            case R.id.ButtonAddIngredient:
+                intent = new Intent(getApplicationContext(),AddIngredientActivity.class);
+                break;
+            case R.id.ButtonAddIngredientCategory:
+                intent = new Intent(getApplicationContext(),AddIngredientCategoryActivity.class);
                 break;
             default:
                 Toast.makeText(ProfileActivity.this, "No correct button choosen", Toast.LENGTH_SHORT).show();

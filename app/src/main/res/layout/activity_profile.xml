@@ -27,12 +27,41 @@
         android:layout_alignParentLeft="true"
         />
 
-    <Button
-        android:id="@+id/ButtonAddRecipe"
+    <LinearLayout
+        android:id="@+id/LinearLayoutIngredientsButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/ImageViewProfilePic"
+        >
+        <Button
+            android:id="@+id/ButtonAddIngredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Ingredient"
+            android:onClick="redirectApp"
+            />
+
+        <Button
+            android:id="@+id/ButtonAddIngredientCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Ingredient Category"
+            android:onClick="redirectApp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutRecipeButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/LinearLayoutIngredientsButtons"
+        >
+    <Button
+        android:id="@+id/ButtonAddRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Add Recipe"
         android:onClick="redirectApp"
         />
@@ -41,18 +70,21 @@
         android:id="@+id/ButtonViewRecipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/ButtonAddRecipe"
         android:text="View Recipe"
         android:onClick="redirectApp"
         />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/LinearLayoutUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/LinearLayoutRecipeButtons">
     <Button
         android:id="@+id/ButtonUpdateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/ButtonViewRecipes"
         android:text="Update Profile"
         android:onClick="redirectApp"
         />
@@ -61,10 +93,9 @@
         android:id="@+id/ButtonDisconnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/ButtonUpdateProfile"
         android:text="Signout"
         android:onClick="signout"
         />
+    </LinearLayout>
 
 </RelativeLayout>

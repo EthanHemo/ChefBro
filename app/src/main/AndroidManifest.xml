@@ -25,7 +25,9 @@
         <activity android:name=".ViewRecipeActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".UpdateProfileActivity" />
-        <activity android:name=".UpdateRecipeActivity"></activity>
+        <activity android:name=".UpdateRecipeActivity" />
+        <activity android:name=".AddIngredientActivity" />
+        <activity android:name=".AddIngredientCategoryActivity"></activity>
     </application>
 
 </manifest>
