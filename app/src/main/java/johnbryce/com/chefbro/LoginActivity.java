@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Signup(View view) {
 
-        //TODO: Create screen for create user.
+
 
         startActivity(new Intent(getApplicationContext(),SignInActivity.class));
 

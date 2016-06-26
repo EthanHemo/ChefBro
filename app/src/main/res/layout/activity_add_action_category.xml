@@ -7,38 +7,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="johnbryce.com.chefbro.AddIngredientActivity">
+    tools:context="johnbryce.com.chefbro.AddActionCategoryActivity">
 
     <EditText
-        android:id="@+id/EditTextIngredient"
+        android:id="@+id/EditTextActionCategory"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:hint="Enter Ingredient "
-        />
-
-    <AutoCompleteTextView
-        android:id="@+id/AutoCompleteIngredientCategory"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/EditTextIngredient"
-        android:layout_marginTop="20dp"
-        android:hint="Start typing category "
+        android:hint="Enter Action Category"
         />
 
     <Button
         android:id="@+id/ButtonSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/AutoCompleteIngredientCategory"
+        android:layout_below="@id/EditTextActionCategory"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Submit"
         android:onClick="submit"
         />
-
-
 
 </RelativeLayout>
