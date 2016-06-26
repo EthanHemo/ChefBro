@@ -26,6 +26,9 @@
         android:layout_below="@id/EditTextIngredient"
         android:layout_marginTop="20dp"
         android:hint="Start typing category "
+        android:textColorHint="#112dfd"
+        android:textColorLink="#112dfd"
+        android:textColorHighlight="#112dfd"
         />
 
     <Button

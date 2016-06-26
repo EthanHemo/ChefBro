@@ -1,5 +1,6 @@
 package johnbryce.com.chefbro;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -43,11 +44,15 @@ public class AddIngredientActivity extends AppCompatActivity {
                     IngredientCategory temp = data.getValue(IngredientCategory.class);
                     categories.add(temp.getName());
                 }
+                Toast.makeText(AddIngredientActivity.this, "Total: "+ categories.size(), Toast.LENGTH_SHORT).show();
                 //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,countries);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,categories);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,categories);
                 actvCatgory.setAdapter(adapter);
+                actvCatgory.setTextColor(Color.RED);
             }
         };
+
+        ref.addListenerForSingleValueEvent(postListener);
 
     }
 }
