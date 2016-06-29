@@ -146,7 +146,8 @@ public class ProfileActivity extends AppCompatActivity {
                 // Data for "images/island.jpg" is returns, use this as needed
                 ImageView imageView = (ImageView)findViewById(R.id.ImageViewProfilePic);
                 Bitmap userPicture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                imageView.setImageBitmap(getRoundedCornerBitmap(userPicture));
+                imageView.setImageBitmap(userPicture);
+                //imageView.setImageBitmap(getRoundedCornerBitmap(userPicture));
                 Log.i(TAG, "got user profile pic");
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -265,6 +266,13 @@ public class ProfileActivity extends AppCompatActivity {
     8D2424
     400000
     200000
+
+    color palette
+    http://paletton.com/#uid=1000u0kt7czj9mHo2hFAy7ZNe41
+    640909
+
+    designs:
+    http://theultralinx.com/2012/11/15-examples-profile-ui-design-inspiration/
 
      */
 }
