@@ -3,28 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="johnbryce.com.chefbro.ProfileActivity">
+    tools:context="johnbryce.com.chefbro.ProfileActivity"
+    android:background="#640909">
 
-    <TextView
-        android:id="@+id/TextViewProfileHeader"
+    <ImageView
+        android:id="@+id/ImageViewStatus"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
+        android:layout_marginTop="-5dp"
+        android:src="@drawable/dessert"
+
         />
 
     <ImageView
         android:id="@+id/ImageViewProfilePic"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_below="@id/TextViewProfileHeader"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ImageViewStatus"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
         android:layout_alignParentLeft="true"
+        />
+
+    <TextView
+        android:id="@+id/TextViewProfileHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ImageViewStatus"
+        android:layout_toRightOf="@id/ImageViewProfilePic"
+        android:layout_marginLeft="15dp"
+        android:text="textt"
+        android:textSize="20sp"
+        android:textColor="#200000"
+        android:background="#8D2424"
         />
 
     <LinearLayout

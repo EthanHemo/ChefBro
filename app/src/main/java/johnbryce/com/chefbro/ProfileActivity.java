@@ -4,6 +4,12 @@ import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -139,7 +145,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(byte[] bytes) {
                 // Data for "images/island.jpg" is returns, use this as needed
                 ImageView imageView = (ImageView)findViewById(R.id.ImageViewProfilePic);
-                imageView.setImageBitmap(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                Bitmap userPicture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(getRoundedCornerBitmap(userPicture));
                 Log.i(TAG, "got user profile pic");
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -227,4 +234,37 @@ public class ProfileActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+        int pixels = 360;
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = pixels;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
+
+       /*
+    color base:
+    prime: 640909
+    B44949
+    8D2424
+    400000
+    200000
+
+     */
 }
