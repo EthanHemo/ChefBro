@@ -10,15 +10,20 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +44,7 @@ import java.io.ByteArrayOutputStream;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private final String TAG="FirebaseProfile";
+    private final String TAG = "FirebaseProfile";
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -49,6 +54,18 @@ public class ProfileActivity extends AppCompatActivity {
     private ValueEventListener postListener;
     private UserChef currentUser;
     private int backButtonCount;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_nav, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +93,12 @@ public class ProfileActivity extends AppCompatActivity {
         };
         mAuth.addAuthStateListener(mAuthListener);
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    private void setUserListener(){
+    private void setUserListener() {
         mUser.getToken(true).addOnCompleteListener(this, new OnCompleteListener<GetTokenResult>() {
             @Override
             public void onComplete(@NonNull Task<GetTokenResult> task) {
@@ -95,8 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-
-    private void getUserDetailsFromDB(){
+    private void getUserDetailsFromDB() {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users").child(mUser.getUid());
 
@@ -105,13 +124,10 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 TextView tvHeader = (TextView) findViewById(R.id.TextViewProfileHeader);
-                if(dataSnapshot.getValue(UserChef.class) == null)
-                {
+                if (dataSnapshot.getValue(UserChef.class) == null) {
 
                     Log.e(TAG, "Data wasn't found in DB");
-                }
-                else
-                {
+                } else {
                     currentUser = dataSnapshot.getValue(UserChef.class);
                     tvHeader.setText("Welcome " + currentUser.getEmail());
                     getUserProfilePic();
@@ -134,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
         //tvHeader.setText("Welcome " + user.getEmail());
     }
 
-    private void getUserProfilePic(){
+    private void getUserProfilePic() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("UserProfilePics").child(currentUser.getPictureName());
 
@@ -144,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(byte[] bytes) {
                 // Data for "images/island.jpg" is returns, use this as needed
-                ImageView imageView = (ImageView)findViewById(R.id.ImageViewProfilePic);
+                ImageView imageView = (ImageView) findViewById(R.id.ImageViewProfilePic);
                 Bitmap userPicture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 imageView.setImageBitmap(userPicture);
                 //imageView.setImageBitmap(getRoundedCornerBitmap(userPicture));
@@ -167,12 +183,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void addRecipe(View view) {
-        Intent intent = new Intent(getApplicationContext(),AddRecipeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AddRecipeActivity.class);
         startActivity(intent);
     }
 
     public void viewRecipes(View view) {
-        Intent intent = new Intent(getApplicationContext(),ViewRecipeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ViewRecipeActivity.class);
         startActivity(intent);
     }
 
@@ -181,17 +197,13 @@ public class ProfileActivity extends AppCompatActivity {
      * Will close the application if the back button pressed twice.
      */
     @Override
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
+    public void onBackPressed() {
+        if (backButtonCount >= 1) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
             backButtonCount++;
         }
@@ -200,12 +212,11 @@ public class ProfileActivity extends AppCompatActivity {
     public void updateProfile(View view) {
     }
 
-    public void redirectApp(View view){
+    public void redirectApp(View view) {
         Intent intent;
-        switch(view.getId())
-        {
+        switch (view.getId()) {
             case R.id.ButtonUpdateProfile:
-                ImageView imageView = (ImageView)findViewById(R.id.ImageViewProfilePic);
+                ImageView imageView = (ImageView) findViewById(R.id.ImageViewProfilePic);
                 imageView.destroyDrawingCache();
                 imageView.buildDrawingCache();
                 Bitmap bitmap = imageView.getDrawingCache();
@@ -213,20 +224,20 @@ public class ProfileActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] data = baos.toByteArray();
                 intent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
-                intent.putExtra("currentUser",currentUser);
-                intent.putExtra("profilePic",data);
+                intent.putExtra("currentUser", currentUser);
+                intent.putExtra("profilePic", data);
                 break;
             case R.id.ButtonAddRecipe:
-                intent = new Intent(getApplicationContext(),AddRecipeActivity.class);
+                intent = new Intent(getApplicationContext(), AddRecipeActivity.class);
                 break;
             case R.id.ButtonViewRecipes:
-                intent = new Intent(getApplicationContext(),ViewRecipeActivity.class);
+                intent = new Intent(getApplicationContext(), ViewRecipeActivity.class);
                 break;
             case R.id.ButtonAddIngredient:
-                intent = new Intent(getApplicationContext(),AddIngredientActivity.class);
+                intent = new Intent(getApplicationContext(), AddIngredientActivity.class);
                 break;
             case R.id.ButtonAddIngredientCategory:
-                intent = new Intent(getApplicationContext(),AddIngredientCategoryActivity.class);
+                intent = new Intent(getApplicationContext(), AddIngredientCategoryActivity.class);
                 break;
             default:
                 Toast.makeText(ProfileActivity.this, "No correct button choosen", Toast.LENGTH_SHORT).show();
@@ -259,6 +270,46 @@ public class ProfileActivity extends AppCompatActivity {
         return output;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Profile Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://johnbryce.com.chefbro/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Profile Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://johnbryce.com.chefbro/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
+
        /*
     color base:
     prime: 640909
@@ -273,6 +324,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     designs:
     http://theultralinx.com/2012/11/15-examples-profile-ui-design-inspiration/
+
+    menu pop up
+    http://developer.alexanderklimov.ru/android/menu.php
+
+    Navigation Drawer
+    http://blog.teamtreehouse.com/add-navigation-drawer-android
 
      */
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="johnbryce.com.chefbro.ProfileActivity"
     android:background="#640909">
+
 
     <ImageView
         android:id="@+id/ImageViewStatus"
@@ -28,16 +30,7 @@
         android:layout_height="96dp"
         app:civ_border_width="2dp"
         app:civ_border_color="#200000"/>
-    <!--ImageView
-        android:id="@+id/ImageViewProfilePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ImageViewStatus"
-        android:layout_marginTop="-40dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_alignParentLeft="true"
-        /-->
+
 
     <TextView
         android:id="@+id/TextViewProfileHeader"
@@ -54,33 +47,77 @@
 
     <LinearLayout
         android:id="@+id/LinearLayoutProfileStats"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:layout_below="@id/ImageViewProfilePic"
         android:orientation="horizontal"
-        android:background="#B44949"
+        android:background="#8D2424"
         >
-        <Button
+        <!--Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#B44949"
             android:text="Recipe done: "
-            />
+            /-->
 
-        <Button
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/ButtonRecipeDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#B44949"
-            android:text="Recipe Created: "
+            fancy:fb_text="Recipe Done: "
+            fancy:fb_defaultColor="#B44949"
+            fancy:fb_borderColor="#200000"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_textColor="#200000"
+            fancy:fb_radius="10dp"
+
             />
 
-        <Button
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/ButtonRecipeCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fancy:fb_text="Recipe Created: "
+            fancy:fb_defaultColor="#B44949"
+            fancy:fb_borderColor="#200000"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_textColor="#200000"
+            fancy:fb_radius="10dp"
+
+            />
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/ButtonRecipeFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fancy:fb_text="Friends: "
+            fancy:fb_defaultColor="#B44949"
+            fancy:fb_borderColor="#200000"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_textColor="#200000"
+            fancy:fb_radius="10dp"
+
+            />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/ButtonRecipefollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fancy:fb_text="Followers: "
+            fancy:fb_defaultColor="#B44949"
+            fancy:fb_borderColor="#200000"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_textColor="#200000"
+            fancy:fb_radius="10dp"
+
+            />
+
+        <!--Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#B44949"
             android:text="Friends: "
-            />
+            /-->
 
 
     </LinearLayout>
