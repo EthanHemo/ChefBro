@@ -112,14 +112,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-
+    // Synce meue buttons
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
 
-
+    // Synce meue buttons
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -141,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    // Setting he menu
+    // Setting  menu
 
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -213,6 +213,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getUserProfilePic() {
+        final DBHandler handler = new DBHandler(this);
+        if(handler.isExist(currentUser.getUid()))
+        {
+            byte[] picture = handler.getUserPicture(currentUser.getUid());
+            setImageToProfilePic(picture);
+        }
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("UserProfilePics").child(currentUser.getPictureName());
 
@@ -222,9 +229,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(byte[] bytes) {
                 // Data for "images/island.jpg" is returns, use this as needed
-                ImageView imageView = (ImageView) findViewById(R.id.ImageViewProfilePic);
-                Bitmap userPicture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                imageView.setImageBitmap(userPicture);
+                setImageToProfilePic(bytes);
+                handler.setUser(currentUser.getUid(), bytes);
                 //imageView.setImageBitmap(getRoundedCornerBitmap(userPicture));
                 Log.i(TAG, "got user profile pic");
             }
@@ -237,6 +243,13 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setImageToProfilePic(byte[] picture)
+    {
+        ImageView imageView = (ImageView) findViewById(R.id.ImageViewProfilePic);
+        Bitmap userPicture = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        imageView.setImageBitmap(userPicture);
     }
 
     public void signout(View view) {
