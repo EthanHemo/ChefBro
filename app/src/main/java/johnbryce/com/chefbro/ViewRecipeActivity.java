@@ -74,6 +74,7 @@ public class ViewRecipeActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Recipes");
         query = myRef.orderByValue();
+        //query = myRef.orderByChild("ownerUID").equalTo(mUser.getUid());
 
         listViewRecipes = (ListView) findViewById(R.id.ListViewRecipes);
         listViewRecipes.setOnItemLongClickListener(
